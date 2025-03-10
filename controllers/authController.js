@@ -151,18 +151,18 @@ const createUser = async (req, res) => {
 
     const hashedPassword = await hashPassword(password);
     const user = await User.create({
-      name: name,
+      userName: userName,
       email: email,
       phoneNumber: phoneNumber,
-      currency: currency,
-      account: account,
       password: hashedPassword,
       req_date: new Date(),
     });
 
-    console.log(user);
     if (user) {
-      return res.json(user);
+      return res.json({
+        message: "Account Created Successfully!",
+        userData: user
+      });
     }
   } catch (error) {
     console.log(error);

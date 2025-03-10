@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  name: {
+  userName: {
     type: String,
     required: true
   },
@@ -11,36 +11,13 @@ const userSchema = new Schema({
     required: true,
     unique: true
   },
-  country: {
+  phoneNumber: {
     type: String,
-    required: true,
-  },
-  currency: {
-    type: String,
-    required: true,
-  },
-  account: {
-    type: String,
-    required: true,
+    required: true
   },
   password: {
     type: String,
     required: true,
-  },
-  profit: {
-    type: Number,
-    default: 0,
-    required: false
-  },
-  deposit: {
-    type: Number,
-    default: 0,
-    required: false
-  },
-  bonuse: {
-    type: Number,
-    default: 0,
-    required: false
   },
   req_date: {
     type: Date,
