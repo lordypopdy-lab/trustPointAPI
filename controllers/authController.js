@@ -99,19 +99,17 @@ const test = async (req, res) => {
 
 const createUser = async (req, res) => {
   const {
-    name,
+    userName,
     email,
-    country,
-    currency,
-    account,
+    phoneNumber,
     password,
     comfirm_password,
   } = req.body;
   try {
-    //Check if name was taken
-    if (!name) {
+    //Check if username was taken
+    if (!userName) {
       return res.json({
-        error: "name is required",
+        error: "userName is required",
       });
     }
 
@@ -122,26 +120,13 @@ const createUser = async (req, res) => {
       });
     }
 
-    //check if country is provided
-    if (!country) {
+    //check if phoneNumber is provided
+    if (!phoneNumber) {
       return res.json({
-        error: "country is required!",
+        error: "phoneNumber is required!",
       });
     }
 
-    //check if currency is provided
-    if (!currency) {
-      return res.json({
-        error: "currency is required!",
-      });
-    }
-
-    //check if country is provided
-    if (!account) {
-      return res.json({
-        error: "account is required!",
-      });
-    }
 
     //Check if password is goood
     if (!password || password.length < 6) {
@@ -164,16 +149,11 @@ const createUser = async (req, res) => {
       });
     }
 
-    // const adminTotalUserUpdate = await Admin.updateOne(
-    //   { adminEmail: "bitclubcontract@gmail.com" },
-    //   { $inc: { totalUser: 1 } }
-    // );
-
     const hashedPassword = await hashPassword(password);
     const user = await User.create({
       name: name,
       email: email,
-      country: country,
+      phoneNumber: phoneNumber,
       currency: currency,
       account: account,
       password: hashedPassword,
