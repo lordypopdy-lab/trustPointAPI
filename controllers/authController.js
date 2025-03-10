@@ -78,7 +78,10 @@ const loginUser = async (req, res) => {
         {},
         (error, token) => {
           if (error) throw error;
-          res.cookie("token", token).json(user);
+          res.cookie("token", token).json({
+            message: "Logged In Successfully!",
+            userData: user
+          });
         }
       );
     }
