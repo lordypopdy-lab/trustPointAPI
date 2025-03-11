@@ -102,19 +102,27 @@ const test = async (req, res) => {
 
 const createUser = async (req, res) => {
   const {
-    userName,
+    firstName,
+    lastName,
     email,
     phoneNumber,
     password,
     comfirm_password,
   } = req.body;
   try {
-    //Check if username was taken
-    if (!userName) {
+    //Check if firstname was taken
+    if (!firstName) {
       return res.json({
-        error: "userName is required",
+        error: "firstName is required",
       });
     }
+
+        //Check if lastname was taken
+        if (!lastName) {
+          return res.json({
+            error: "lastName is required",
+          });
+        }
 
     //check if email is provided
     if (!email) {
@@ -154,7 +162,8 @@ const createUser = async (req, res) => {
 
     const hashedPassword = await hashPassword(password);
     const user = await User.create({
-      userName: userName,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phoneNumber: phoneNumber,
       password: hashedPassword,
