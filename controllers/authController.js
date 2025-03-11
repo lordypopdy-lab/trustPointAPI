@@ -107,7 +107,7 @@ const createUser = async (req, res) => {
     email,
     phoneNumber,
     password,
-    comfirm_password,
+    confirm_password,
   } = req.body;
   try {
     //Check if firstname was taken
@@ -147,9 +147,9 @@ const createUser = async (req, res) => {
     }
 
     //Check comfirmPassword
-    if (password !== comfirm_password) {
+    if (password !== confirm_password) {
       return res.json({
-        error: "Comfirm password must match password",
+        error: "confirm_password must match password",
       });
     }
 
