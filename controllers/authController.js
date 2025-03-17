@@ -1,7 +1,64 @@
+require("dotenv").config();
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 const User = require("../models/userModel");
 const Admin = require("../models/adminModel");
 const { hashPassword, comparePassword } = require("../helpers/auth");
+
+const verificationOTP = async (req, res) => {
+  const { email } = req.body;
+
+  if(!email){
+    return res.json({
+      error: "email is required to request for OTP"
+    })
+  }
+
+  // Generate a random 6-digit OTP
+  const generateOTP = () => {
+      return Math.floor(100000 + Math.random() * 900000);
+  };
+  
+  // Send OTP via Email
+  const sendOTP = async (email) => {
+      const otp = generateOTP();
+  
+      // Create a transporter
+      const transporter = nodemailer.createTransport({
+          service: "gmail",
+          auth: {
+              user: process.env.EMAIL_USER,
+              pass: process.env.EMAIL_PASS,
+          },
+      });
+  
+      // Email options
+      const mailOptions = {
+          from: process.env.EMAIL_USER,
+          to: email,
+          subject: "Your OTP Code",
+          text: `Testing OTP from TrustPoint Your One-Time Password (OTP) is: ${otp}\n\nIt will expire in 10 minutes.`,
+      };
+  
+      try {
+          await transporter.sendMail(mailOptions);
+          console.log(`OTP sent successfully to ${email}: ${otp}`);
+          return otp;
+      } catch (error) {
+          console.error("Error sending OTP:", error);
+          return null;
+      }
+  };
+  
+  // Example usage
+  const userEmail = "deelordpopdy2@gmail.com"; // Replace with user's email
+  sendOTP(userEmail);
+  
+  module.exports = sendOTP;
+  
+
+}
 
 const loginAdmin = async (req, res) => {
   try {
@@ -117,12 +174,12 @@ const createUser = async (req, res) => {
       });
     }
 
-        //Check if lastname was taken
-        if (!lastName) {
-          return res.json({
-            error: "lastName is required",
-          });
-        }
+    //Check if lastname was taken
+    if (!lastName) {
+      return res.json({
+        error: "lastName is required",
+      });
+    }
 
     //check if email is provided
     if (!email) {
@@ -186,4 +243,5 @@ module.exports = {
   loginUser,
   createUser,
   loginAdmin,
+  verificationOTP
 };
