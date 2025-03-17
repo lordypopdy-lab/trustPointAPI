@@ -30,7 +30,7 @@ const sendOTP = async (email) => {
 
     try {
         await transporter.sendMail(mailOptions);
-        console.log(`OTP sent successfully to ${email}: ${otp}`);
+        // console.log(`OTP sent successfully to ${email}: ${otp}`);
         return otp;
     } catch (error) {
         console.error("Error sending OTP:", error);
@@ -42,4 +42,4 @@ const sendOTP = async (email) => {
 const userEmail = "deelordpopdy2@gmail.com"; // Replace with user's email
 sendOTP(userEmail);
 
-module.exports = sendOTP;
+console.log(otp)
